@@ -5,13 +5,13 @@
     text-align: center;
 }
 
-tr:nth-child(even) {
+/* tr:nth-child(even) {
     background: #F2F2F2;
-}
+} */
 
-tr:nth-child(odd) {
-    background: #FFF;
-}
+/* tr:nth-child(odd) {
+    background: #474747;
+} */
 
 th, td {
     padding-left: 1rem;
