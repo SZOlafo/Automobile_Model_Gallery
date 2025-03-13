@@ -1,2 +1,2 @@
-# Automobile_Model_Galery
-Interactive galery of 3D automobile models.
+# Automobile_Model_Gallery
+Interactive gallery of 3D automobile models.
