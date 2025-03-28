@@ -1,49 +1,52 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { useEffect } from 'react';
+
+import * as THREE from 'three';
+// import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+// import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+// import { VOXLoader } from 'three/examples/jsm/loaders/VOXLoader';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
+import SceneInit from './lib/SceneInit';
 
 function App() {
-    const [forecasts, setForecasts] = useState();
+  useEffect(() => {
+    const scene = new SceneInit('myThreeJsCanvas');
+    scene.initialize();
+    scene.animate();
 
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
+    // const boxGeometry = new THREE.BoxGeometry(8, 8, 8);
+    // const boxMaterial = new THREE.MeshNormalMaterial();
+    // const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+    // test.scene.add(boxMesh);
 
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tabelLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
+    let Model = new THREE.Object3D();
+    const glftLoader = new GLTFLoader();
+    glftLoader.load('assets/golf.glb', (gltf) => {
+        Model.add(gltf.scene)
+    //   loadedModel = gltfScene;
+        Model.scale.set(1500, 1500, 1500);
+        // Model.position.set(8, -10, 1.5);
 
-    return (
-        <div>
-            <h1 id="tabelLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
-        </div>
-    );
-    
-    async function populateWeatherData() {
-        const response = await fetch('api/weatherforecast');
-        const data = await response.json();
-        setForecasts(data);
-    }
+      scene.scene.add(Model);
+    });
+
+    const animate = () => {
+      if (Model) {
+        Model.rotation.y += 0.01;
+        // loadedModel.scene.rotation.x += 0.0;
+        // loadedModel.scene.rotation.y += 0.0;
+        // loadedModel.scene.rotation.z += 0.0;
+      }
+      requestAnimationFrame(animate);
+    };
+    animate();
+  }, []);
+
+  return (
+    <div>
+      <canvas id="myThreeJsCanvas" />
+    </div>
+  );
 }
 
 export default App;
