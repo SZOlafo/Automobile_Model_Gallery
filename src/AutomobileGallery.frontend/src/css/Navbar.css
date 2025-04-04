@@ -1,0 +1,8 @@
+#navigation-bar {
+    background-color: #001A47;
+}
+
+#middle {
+    display: flex;
+    justify-content: center;
+}
