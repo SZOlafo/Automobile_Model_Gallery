@@ -1,9 +1,22 @@
+using AutomobileGallery.Data;
+using AutomobileGallery.Service;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Add ICar service to DI container
+builder.Services.AddScoped<ICarService, CarService>();
+
+//Get DB connection string from env variables
+var connectionString = builder.Configuration.GetConnectionString("AutomobileGallery");
+
+//Add Database context
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
@@ -19,31 +32,21 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("api/weatherforecast", () =>
+app.MapGet("api/carList", async (ICarService _carService) =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    return await _carService.GetCarList();
 })
-.WithName("GetWeatherForecast")
+.WithName("GetCarList")
+.WithOpenApi();
+
+app.MapGet("api/carDetails/{carId}", async (ICarService _carService, Guid carId) =>
+{
+    return await _carService.GetCarById(carId);
+})
+.WithName("GetCarDetails")
 .WithOpenApi();
 
 app.MapFallbackToFile("/index.html");
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
