@@ -6,7 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <SpaRoot>..\automobilegallery.client</SpaRoot>
     <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
-    <UserSecretsId>e6849aab-f42a-441e-bea6-75435c337348</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
