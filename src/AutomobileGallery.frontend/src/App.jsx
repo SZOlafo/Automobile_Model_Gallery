@@ -5,14 +5,14 @@ import DetailsView from "./pages/DetailsView";
 
 function App() {
     return (
-        <Navbar>
-            <BrowserRouter>
+        <BrowserRouter>
+            <Navbar>
                 <Routes>
                     <Route path="/" element={<ModelList />} />
-                    <Route path="/:id" element={<DetailsView />} />
+                    <Route path="/:carId" element={<DetailsView />} />
                 </Routes>
-            </BrowserRouter>
-        </Navbar>
+            </Navbar>
+        </BrowserRouter>
     )
 }
 
