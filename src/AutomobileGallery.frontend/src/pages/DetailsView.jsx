@@ -20,7 +20,7 @@ export default function DetailsView() {
                     className='img-fluid rounded shadow-3'
                     alt='...'
                 /> */}
-                <CarModel modelPath={'assets/golf.glb'} />
+                <CarModel modelPath={'https://atomobilegallery.blob.core.windows.net/cars/3dModels/volkswagen_karman.glb'} />
                 <h1 id="caption">Test</h1>
             </figure>
         </div>

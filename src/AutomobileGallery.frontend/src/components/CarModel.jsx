@@ -13,7 +13,7 @@ export function CarModel({ modelPath }) {
     const glftLoader = new GLTFLoader();
     glftLoader.load(modelPath, (gltf) => {
       Model.add(gltf.scene)
-      Model.scale.set(1500, 1500, 1500);
+      Model.scale.set(1, 1, 1);
 
       scene.scene.add(Model);
     });
