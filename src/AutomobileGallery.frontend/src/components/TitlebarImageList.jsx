@@ -41,7 +41,7 @@ export default function TitlebarImageList() {
 const itemData = [
     {
         img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-        title: 'Volkswagen Golf Mk. I',
+        title: 'FSO Polonez',
         author: '@CarVault3D',
         rows: 2,
         cols: 2,
@@ -49,65 +49,17 @@ const itemData = [
     },
     {
         img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-        title: 'Toyota Supra',
+        title: 'Volkswagen Karmann',
         author: '@CarVault3D',
     },
     {
         img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-        title: 'Volkswagen Golf Mk. I',
+        title: 'Fiat 125P',
         author: '@CarVault3D',
     },
     {
-        img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-        title: 'Volkswagen Golf Mk. I',
+        img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+        title: 'Nysa 522',
         author: '@CarVault3D',
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-        title: 'Volkswagen Golf Mk. I',
-        author: '@CarVault3D',
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-        title: 'Volkswagen Golf Mk. I',
-        author: '@CarVault3D',
-        rows: 2,
-        cols: 2,
-        featured: true,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-        title: 'Volkswagen Golf Mk. I',
-        author: '@CarVault3D',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-        title: 'Volkswagen Golf Mk. I',
-        author: '@CarVault3D',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-        title: 'Volkswagen Golf Mk. I',
-        author: '@CarVault3D',
-        rows: 2,
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-        title: 'Volkswagen Golf Mk. I',
-        author: '@shelleypauls',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-        title: 'Volkswagen Golf Mk. I',
-        author: '@peterlaster',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-        title: 'Volkswagen Golf Mk. I',
-        author: '@southside_customs',
-        cols: 2,
     },
 ];
