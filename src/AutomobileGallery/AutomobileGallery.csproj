@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <SpaRoot>..\automobilegallery.client</SpaRoot>
+    <SpaRoot>..\automobilegallery.frontend</SpaRoot>
     <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
   </PropertyGroup>
 
@@ -24,9 +24,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\automobilegallery.client\automobilegallery.client.esproj">
+    <ProjectReference Include="..\AutomobileGallery.frontend\AutomobileGallery.frontend.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
+
+  <Target Name="CopyEsprojDistToWwwroot" AfterTargets="Build">
+    <ItemGroup>
+        <EsprojDistFiles Include="..\AutomobileGallery.frontend\dist\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(EsprojDistFiles)"
+          DestinationFiles="@(EsprojDistFiles->'wwwroot\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+</Target>
 
 </Project>
