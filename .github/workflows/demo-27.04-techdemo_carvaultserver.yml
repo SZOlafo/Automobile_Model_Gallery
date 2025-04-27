@@ -24,11 +24,9 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        working-directory: AutomobileGallery
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        working-directory: AutomobileGallery
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
@@ -56,9 +54,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7131E6D4A7994D86A24AA3482A10004A }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_06F36184BF20460A96759112858F4493 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_8BF1728064CA42F086BD6E2909997E57 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E4B4969965F04109922DAD4EA5C4EB61 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D14EF748E3B447988BAAAD547016B305 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_73E27FFC238342FBBA399588174C4A8E }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
