@@ -9,6 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+});
+
 //Add ICar service to DI container
 builder.Services.AddScoped<ICarService, CarService>();
 
@@ -48,5 +61,7 @@ app.MapGet("api/carDetails/{carId}", async (ICarService _carService, Guid carId)
 .WithOpenApi();
 
 app.MapFallbackToFile("/index.html");
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();
