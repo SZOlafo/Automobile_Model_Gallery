@@ -399,3 +399,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 src/AutomobileGallery/appsettings.Development.json
+src/AutomobileGallery/wwwroot

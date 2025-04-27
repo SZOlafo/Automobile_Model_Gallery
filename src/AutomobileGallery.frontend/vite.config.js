@@ -12,7 +12,7 @@ const baseFolder =
         ? `${env.APPDATA}/ASP.NET/https`
         : `${env.HOME}/.aspnet/https`;
 
-const certificateName = "automobilegallery.client";
+const certificateName = "AutomobileGallery.frontend";
 const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
 const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
