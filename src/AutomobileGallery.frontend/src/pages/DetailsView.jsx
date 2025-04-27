@@ -2,15 +2,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../css/DetailsView.css"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CarModel } from "../components/CarModel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function DetailsView() {
 
     const { carId } = useParams();
-    const [model, setModel] = useState({});
+    const [model, setModel] = useState(null);
     const navigate = useNavigate();
 
-    useState(() => {
+    useEffect(() => {
         getModel();
     }, [])
 
@@ -26,6 +26,10 @@ export default function DetailsView() {
         .then(data => {
             setModel(data);
         })
+    }
+
+    if (!model) {
+        return <div>Ładowanie modelu...</div>; // Albo spinner, albo pusty div
     }
 
     return (<>
