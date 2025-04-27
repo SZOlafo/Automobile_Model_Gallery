@@ -9,11 +9,10 @@ function App() {
             <Navbar>
                 <Routes>
                     <Route path="/" element={<ModelList />} />
-                    <Route path="/:id" element={<DetailsView />} />
+                    <Route path="/:carId" element={<DetailsView />} />
                 </Routes>
             </Navbar>
         </BrowserRouter>
-
     )
 }
 

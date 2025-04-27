@@ -1,25 +1,40 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../css/DetailsView.css"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { CarModel } from "../components/CarModel";
+import { useState } from "react";
 
 export default function DetailsView() {
 
+    const { carId } = useParams();
+    const [model, setModel] = useState({});
     const navigate = useNavigate();
+
+    useState(() => {
+        getModel();
+    }, [])
 
     function backToShop() {
         navigate('/');
+    }
+
+    function getModel() {
+        fetch(`https://localhost:7227/api/carDetails/${carId}`)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            setModel(data);
+        })
     }
 
     return (<>
         <ArrowBackIcon id="arrow" onClick={backToShop}></ArrowBackIcon>
         <div id='product'>
             <figure id="image-product" className='bg-image'>
-                <img
-                    src='https://img.freepik.com/free-psd/red-isolated-car_23-2151852884.jpg'
-                    className='img-fluid rounded shadow-3'
-                    alt='...'
-                />
-                <h1 id="caption">Test</h1>
+                <CarModel modelPath={model.carModelUrl} />
+                <h1 id="caption">{model.carName}</h1>
+                <p>{model.carDescription}</p>
             </figure>
         </div>
     </>)
