@@ -15,7 +15,7 @@ export default function DetailsView() {
   const [showLightHelper, setShowLightHelper] = useState(false);
 
   // state
-const [dirLightIntensity, setDirLightIntensity] = useState(1);
+  const [dirLightIntensity, setDirLightIntensity] = useState(1);
 
 
   function backToShop() {
@@ -27,10 +27,10 @@ const [dirLightIntensity, setDirLightIntensity] = useState(1);
       <ArrowBackIcon id="arrow" onClick={backToShop} />
 
       <div className="light-controls">
-        <h3>🎛️ Ustawienia Światła</h3>
+        <h3>🎛️ Light settings</h3>
 
         <label>
-          Kolor światła kierunkowego:
+          Direction light color:
           <input
             type="color"
             value={dirLightColor}
@@ -40,7 +40,7 @@ const [dirLightIntensity, setDirLightIntensity] = useState(1);
         <br />
 
         <label>
-          Kolor ambientu:
+          Ambient color:
           <input
             type="color"
             value={ambientColor}
@@ -50,7 +50,7 @@ const [dirLightIntensity, setDirLightIntensity] = useState(1);
         <br />
 
         <label>
-          Kierunek X:
+          X:
           <input
             type="range"
             min="-20"
@@ -63,7 +63,7 @@ const [dirLightIntensity, setDirLightIntensity] = useState(1);
         <br />
 
         <label>
-          Kierunek Y:
+          Y:
           <input
             type="range"
             min="-20"
@@ -76,7 +76,7 @@ const [dirLightIntensity, setDirLightIntensity] = useState(1);
         <br />
 
         <label>
-          Kierunek Z:
+          Z:
           <input
             type="range"
             min="-20"
@@ -86,19 +86,17 @@ const [dirLightIntensity, setDirLightIntensity] = useState(1);
           />
           <span> {dirPositionZ}</span>
         </label>
-      </div>
-
-      <label>
-        Siła światła:
-        <input
+        <label>
+          Light strength:
+          <input
             type="range"
             min="0"
             max="5"
             step="0.1"
             value={dirLightIntensity}
             onChange={(e) => setDirLightIntensity(Number(e.target.value))}
-        />
-            <span> {dirLightIntensity}</span>
+          />
+          <span> {dirLightIntensity}</span>
         </label>
         <label>
           <input
@@ -106,9 +104,9 @@ const [dirLightIntensity, setDirLightIntensity] = useState(1);
             checked={showLightHelper}
             onChange={(e) => setShowLightHelper(e.target.checked)}
           />
-          Pokaż kierunek światła
+          Show light visualisation
         </label>
-
+      </div>
 
       <div id="product">
         <figure id="image-product" className="bg-image">
