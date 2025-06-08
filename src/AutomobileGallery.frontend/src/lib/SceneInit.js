@@ -29,7 +29,8 @@ export default class SceneInit {
       0.1,
       2000
     );
-    this.camera.position.z = 48;
+    this.camera.position.set(0, 10, 100);
+    this.camera.lookAt(0, 0, 0);
 
     const canvas = document.getElementById(this.canvasId);
     this.renderer = new THREE.WebGLRenderer({
@@ -41,6 +42,8 @@ export default class SceneInit {
 
     this.clock = new THREE.Clock();
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.target.set(0, 5, 0);
+    this.controls.update();
     this.stats = Stats();
     this.ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     this.ambientLight.castShadow = true;
@@ -67,5 +70,22 @@ export default class SceneInit {
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
+  }
+
+  setZoomLimitsForModel(model) {
+    // Calculate bounding sphere of the model
+    const box = new THREE.Box3().setFromObject(model);
+    const sphere = new THREE.Sphere();
+    box.getBoundingSphere(sphere);
+
+    // Set OrbitControls zoom limits based on model size
+    this.controls.minDistance = sphere.radius * 0.8; // don’t zoom closer than 80% of model radius
+    this.controls.maxDistance = sphere.radius * 5;   // optional max zoom-out
+
+    // Optional: update controls target to model center
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+    this.controls.target.copy(center);
+    this.controls.update();
   }
 }

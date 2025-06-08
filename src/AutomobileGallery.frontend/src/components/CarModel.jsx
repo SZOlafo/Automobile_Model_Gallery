@@ -64,10 +64,24 @@ export default function CarModel({
       const model = new THREE.Object3D();
       model.add(gltf.scene);
 
+      // Compute bounding box and center
       const box = new THREE.Box3().setFromObject(model);
       const center = new THREE.Vector3();
       box.getCenter(center);
+
+      // Move model down so it sits on the ground
       model.position.y = -(center.y - box.min.y);
+
+      // Adjust OrbitControls target to interior (slightly lower than geometric center)
+      const interiorTarget = center.clone();
+      interiorTarget.y -= (box.max.y - box.min.y) * 0.25; // shift target down toward cabin
+
+      scene.controls.target.copy(interiorTarget);
+      scene.controls.update();
+
+      // Optional: also reposition camera to look at the cabin more effectively
+      scene.camera.position.set(interiorTarget.x, interiorTarget.y + 5, interiorTarget.z + 80);
+      scene.camera.lookAt(interiorTarget);
 
       gltf.scene.traverse((child) => {
         if (child.isMesh) {
@@ -83,6 +97,7 @@ export default function CarModel({
       });
 
       scene.scene.add(model);
+      scene.setZoomLimitsForModel(model);
       modelRef.current = model;
     });
 
