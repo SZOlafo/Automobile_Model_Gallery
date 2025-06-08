@@ -3,9 +3,25 @@ import "../css/DetailsView.css";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CarModel from "../components/CarModel";
 import { useState } from "react";
+import { Button } from "@mui/material";
 
 export default function DetailsView() {
   const navigate = useNavigate();
+
+  const hdrBackgrounds = [
+    "/assets/docklands_01_2k.hdr",
+    "/assets/cos.hdr"
+  ];
+
+  const [currentBgIndex, setCurrentBgIndex] = useState(0);
+
+  function prevBackground() {
+    setCurrentBgIndex((prev) => (prev === 0 ? hdrBackgrounds.length - 1 : prev - 1));
+  }
+
+  function nextBackground() {
+    setCurrentBgIndex((prev) => (prev === hdrBackgrounds.length - 1 ? 0 : prev + 1));
+  }
 
   const [dirLightColor, setDirLightColor] = useState("#ffffff");
   const [ambientColor, setAmbientColor] = useState("#404040");
@@ -106,6 +122,11 @@ export default function DetailsView() {
           />
           Show light visualisation
         </label>
+        <label>
+          <Button onClick={prevBackground}>Previous</Button>
+          <Button onClick={nextBackground}>Next</Button>
+          Change background
+        </label>
       </div>
 
       <div id="product">
@@ -123,6 +144,7 @@ export default function DetailsView() {
             }}
             dirLightIntensity={dirLightIntensity}
             showLightHelper={showLightHelper}
+            hdrBackground={hdrBackgrounds[currentBgIndex]}
           />
           <h1 id="caption">Test</h1>
         </figure>

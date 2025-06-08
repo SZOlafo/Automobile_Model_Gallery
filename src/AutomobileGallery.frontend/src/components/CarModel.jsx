@@ -10,7 +10,8 @@ export default function CarModel({
   ambientColor,
   dirPosition,
   dirLightIntensity,
-  showLightHelper
+  showLightHelper,
+  hdrBackground
 }) {
   const ambientRef = useRef();
   const directionalRef = useRef();
@@ -25,7 +26,7 @@ export default function CarModel({
     scene.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     scene.animate();
     const rgbeLoader = new RGBELoader();
-    rgbeLoader.load('/assets/docklands_01_2k.hdr', (texture) => {
+    rgbeLoader.load(hdrBackground, (texture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
 
       scene.scene.background = texture;
@@ -107,7 +108,7 @@ export default function CarModel({
       scene.scene.remove(lightHelperRef.current);
       if (modelRef.current) scene.scene.remove(modelRef.current);
     };
-  }, [modelPath]);
+  }, [modelPath, hdrBackground]);
 
   // Update lights
   useEffect(() => {
