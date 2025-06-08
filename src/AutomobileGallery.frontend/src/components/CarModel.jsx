@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { useEffect, useRef } from "react";
 import SceneInit from "../lib/SceneInit.js";
-// import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 
 export default function CarModel({
   modelPath,
@@ -24,13 +24,13 @@ export default function CarModel({
     scene.renderer.shadowMap.enabled = true;
     scene.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     scene.animate();
-    // const rgbeLoader = new RGBELoader();
-    // rgbeLoader.load('/assets/docklands_01_2k.hdr', (texture) => {
-    //   texture.mapping = THREE.EquirectangularReflectionMapping;
+    const rgbeLoader = new RGBELoader();
+    rgbeLoader.load('/assets/docklands_01_2k.hdr', (texture) => {
+      texture.mapping = THREE.EquirectangularReflectionMapping;
 
-    //   scene.scene.background = texture;
-    //   scene.scene.environment = texture;
-    // });
+      scene.scene.background = texture;
+      scene.scene.environment = texture;
+    });
     sceneRef.current = scene;
 
 
