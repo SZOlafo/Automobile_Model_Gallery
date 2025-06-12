@@ -36,9 +36,13 @@ export default function DetailsView() {
         <ArrowBackIcon id="arrow" onClick={backToShop}></ArrowBackIcon>
         <div id='product'>
             <figure id="image-product" className='bg-image'>
-                <CarModel modelPath={model.carModelUrl} />
-                <h1 id="caption">{model.carName}</h1>
-                <p>{model.carDescription}</p>
+                {/* <img
+                    src='https://img.freepik.com/free-psd/red-isolated-car_23-2151852884.jpg'
+                    className='img-fluid rounded shadow-3'
+                    alt='...'
+                /> */}
+                <CarModel modelPath={'https://atomobilegallery.blob.core.windows.net/cars/3dModels/volkswagen_karman.glb'} />
+                <h1 id="caption">Test</h1>
             </figure>
         </div>
     </>)
