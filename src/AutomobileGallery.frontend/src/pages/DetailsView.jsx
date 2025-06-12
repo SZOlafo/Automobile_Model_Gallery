@@ -19,7 +19,7 @@ export default function DetailsView() {
     }
 
     function getModel() {
-        fetch(`https://localhost:7227/api/carDetails/${carId}`)
+        fetch(`/api/carDetails/${carId}`)
         .then(response => {
             return response.json();
         })

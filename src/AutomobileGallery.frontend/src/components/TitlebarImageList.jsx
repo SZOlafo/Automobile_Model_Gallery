@@ -16,7 +16,7 @@ export default function TitlebarImageList() {
     }, [])
 
     function getModels(){
-        fetch("https://localhost:7227/api/carList")
+        fetch("/api/carList")
         .then(response => {
             return response.json();
         })
