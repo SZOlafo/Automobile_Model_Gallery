@@ -140,17 +140,10 @@ export default function CarModel({
   }, [showLightHelper]);
 
 
-  return (
-    <div>
-      <canvas style={{ width: "80vw", height: "80vh" }} id="dupa" />
-    animate();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div style={{ position: "relative", width: "80vw" }}>
-      {!isLoaded && (
+      {(
         <div style={{
           position: "absolute",
           top: "50%",
@@ -162,7 +155,7 @@ export default function CarModel({
           Ładowanie modelu...
         </div>
       )}
-      <canvas style={{ width: "80vw", visibility: isLoaded ? 'visible' : 'hidden' }} id="scene" />
+      <canvas style={{ width: "80vw", visibility: 'visible'}} id="scene" />
     </div>
   );
 }
