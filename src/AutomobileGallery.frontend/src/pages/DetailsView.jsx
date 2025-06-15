@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../css/DetailsView.css";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CarModel from "../components/CarModel";
@@ -30,13 +30,33 @@ export default function DetailsView() {
   const [dirPositionZ, setDirPositionZ] = useState(10);
   const [showLightHelper, setShowLightHelper] = useState(false);
 
+  const { carId } = useParams();
+  const [model, setModel] = useState(null);
+
   // state
   const [dirLightIntensity, setDirLightIntensity] = useState(1);
 
+  useState(() => {
+  getModel();
+  }, [])
 
   function backToShop() {
     navigate('/');
   }
+
+  function getModel() {
+    fetch(`/api/carDetails/${carId}`)
+    .then(response => {
+        return response.json();
+    })
+    .then(data => {
+        setModel(data);
+    })
+  }
+
+    if (!model) {
+        return <div></div>; // Albo spinner, albo pusty div
+    }
 
   return (
     <>
@@ -122,19 +142,20 @@ export default function DetailsView() {
           />
           Show light visualisation
         </label>
-        <label>
+        {/* <label>
           <Button onClick={prevBackground}>Previous</Button>
           <Button onClick={nextBackground}>Next</Button>
           Change background
-        </label>
+        </label> */}
       </div>
 
-      <div id="product">
+      <div id="product" style={{
+    width: "80%",     // lub dowolna stała/liczba px
+    margin: "0 auto",  // ← to właśnie centruje w osi X
+  }}>
         <figure id="image-product" className="bg-image">
           <CarModel
-            modelPath={
-              "https://atomobilegallery.blob.core.windows.net/cars/3dModels/volkswagen_karman.glb"
-            }
+            modelPath={model.carModelUrl}
             dirLightColor={dirLightColor}
             ambientColor={ambientColor}
             dirPosition={{
@@ -146,7 +167,8 @@ export default function DetailsView() {
             showLightHelper={showLightHelper}
             hdrBackground={hdrBackgrounds[currentBgIndex]}
           />
-          <h1 id="caption">Test</h1>
+          <h1 id="caption">{model.carName}</h1>
+          <p>{model.carDescription}</p>
         </figure>
       </div>
     </>

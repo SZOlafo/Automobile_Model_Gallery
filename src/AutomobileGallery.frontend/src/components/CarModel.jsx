@@ -1,8 +1,10 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState  } from "react";
 import SceneInit from "../lib/SceneInit.js";
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
+
 
 export default function CarModel({
   modelPath,
@@ -18,6 +20,7 @@ export default function CarModel({
   const modelRef = useRef();
   const sceneRef = useRef();
   const lightHelperRef = useRef();
+  const [isLoaded, setIsLoaded] = useState(false); // <-- Dodajemy stan ładowania
 
   useEffect(() => {
     const scene = new SceneInit('scene');
@@ -61,6 +64,11 @@ export default function CarModel({
 
     // Load model
     const loader = new GLTFLoader();
+
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.5/');
+    loader.setDRACOLoader(dracoLoader);
+
     loader.load(modelPath, (gltf) => {
       const model = new THREE.Object3D();
       model.add(gltf.scene);
@@ -86,20 +94,24 @@ export default function CarModel({
 
       gltf.scene.traverse((child) => {
         if (child.isMesh) {
-          const oldMat = child.material;
-          child.material = new THREE.MeshPhongMaterial({
-            color: oldMat?.color || new THREE.Color(0xffffff),
-            shininess: 100
-          });
-          child.material.needsUpdate = true;
-          child.castShadow = true;
+          const mat = child.material;   // oryginalny materiał z GLB-a
+
+          // upewnij się, że właściwości istnieją (niektóre materiały mogą ich nie mieć)
+          if ('roughness' in mat) mat.roughness = 0.1;   // im mniejsze, tym bardziej lustrzane
+          if ('metalness' in mat) mat.metalness = 0.0;   // 0 = lakier, 1 = chrom
+
+          mat.needsUpdate = true;
+
+          child.castShadow    = true;
           child.receiveShadow = true;
         }
       });
 
+
       scene.scene.add(model);
       scene.setZoomLimitsForModel(model);
       modelRef.current = model;
+      setIsLoaded(true); 
     });
 
     return () => {
@@ -143,19 +155,23 @@ export default function CarModel({
 
   return (
     <div style={{ position: "relative", width: "80vw" }}>
-      {(
+      {!isLoaded && (
         <div style={{
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           fontSize: "24px",
-          fontWeight: "bold"
+          fontWeight: "bold",
+          margin: "0 auto",   // centrowanie poziome
+          display: "flex",    // ↓ centrowanie zawartości (płótna) w obu osiach
+          justifyContent: "center",
+          alignItems: "center",
         }}>
           Ładowanie modelu...
         </div>
       )}
-      <canvas style={{ width: "80vw", visibility: 'visible'}} id="scene" />
+      <canvas style={{ width: "80vw", visibility: isLoaded ? 'visible' : 'hidden' }} id="scene" />
     </div>
   );
 }
