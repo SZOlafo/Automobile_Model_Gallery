@@ -1,49 +1,154 @@
-import { useNavigate, useParams } from "react-router-dom";
-import "../css/DetailsView.css"
+import { useNavigate } from "react-router-dom";
+import "../css/DetailsView.css";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { CarModel } from "../components/CarModel";
-import { useEffect, useState } from "react";
+import CarModel from "../components/CarModel";
+import { useState } from "react";
+import { Button } from "@mui/material";
 
 export default function DetailsView() {
+  const navigate = useNavigate();
 
-    const { carId } = useParams();
-    const [model, setModel] = useState(null);
-    const navigate = useNavigate();
+  const hdrBackgrounds = [
+    "/assets/docklands_01_2k.hdr",
+    "/assets/cos.hdr"
+  ];
 
-    useEffect(() => {
-        getModel();
-    }, [])
+  const [currentBgIndex, setCurrentBgIndex] = useState(0);
 
-    function backToShop() {
-        navigate('/');
-    }
+  function prevBackground() {
+    setCurrentBgIndex((prev) => (prev === 0 ? hdrBackgrounds.length - 1 : prev - 1));
+  }
 
-    function getModel() {
-        fetch(`/api/carDetails/${carId}`)
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            setModel(data);
-        })
-    }
+  function nextBackground() {
+    setCurrentBgIndex((prev) => (prev === hdrBackgrounds.length - 1 ? 0 : prev + 1));
+  }
 
-    if (!model) {
-        return <div>Ładowanie modelu...</div>; // Albo spinner, albo pusty div
-    }
+  const [dirLightColor, setDirLightColor] = useState("#ffffff");
+  const [ambientColor, setAmbientColor] = useState("#404040");
+  const [dirPositionX, setDirPositionX] = useState(10);
+  const [dirPositionY, setDirPositionY] = useState(10);
+  const [dirPositionZ, setDirPositionZ] = useState(10);
+  const [showLightHelper, setShowLightHelper] = useState(false);
 
-    return (<>
-        <ArrowBackIcon id="arrow" onClick={backToShop}></ArrowBackIcon>
-        <div id='product'>
-            <figure id="image-product" className='bg-image'>
-                {/* <img
-                    src='https://img.freepik.com/free-psd/red-isolated-car_23-2151852884.jpg'
-                    className='img-fluid rounded shadow-3'
-                    alt='...'
-                /> */}
-                <CarModel modelPath={'https://atomobilegallery.blob.core.windows.net/cars/3dModels/volkswagen_karman.glb'} />
-                <h1 id="caption">Test</h1>
-            </figure>
-        </div>
-    </>)
+  // state
+  const [dirLightIntensity, setDirLightIntensity] = useState(1);
+
+
+  function backToShop() {
+    navigate('/');
+  }
+
+  return (
+    <>
+      <ArrowBackIcon id="arrow" onClick={backToShop} />
+
+      <div className="light-controls">
+        <h3>🎛️ Light settings</h3>
+
+        <label>
+          Direction light color:
+          <input
+            type="color"
+            value={dirLightColor}
+            onChange={(e) => setDirLightColor(e.target.value)}
+          />
+        </label>
+        <br />
+
+        <label>
+          Ambient color:
+          <input
+            type="color"
+            value={ambientColor}
+            onChange={(e) => setAmbientColor(e.target.value)}
+          />
+        </label>
+        <br />
+
+        <label>
+          X:
+          <input
+            type="range"
+            min="-20"
+            max="20"
+            value={dirPositionX}
+            onChange={(e) => setDirPositionX(Number(e.target.value))}
+          />
+          <span> {dirPositionX}</span>
+        </label>
+        <br />
+
+        <label>
+          Y:
+          <input
+            type="range"
+            min="-20"
+            max="20"
+            value={dirPositionY}
+            onChange={(e) => setDirPositionY(Number(e.target.value))}
+          />
+          <span> {dirPositionY}</span>
+        </label>
+        <br />
+
+        <label>
+          Z:
+          <input
+            type="range"
+            min="-20"
+            max="20"
+            value={dirPositionZ}
+            onChange={(e) => setDirPositionZ(Number(e.target.value))}
+          />
+          <span> {dirPositionZ}</span>
+        </label>
+        <label>
+          Light strength:
+          <input
+            type="range"
+            min="0"
+            max="5"
+            step="0.1"
+            value={dirLightIntensity}
+            onChange={(e) => setDirLightIntensity(Number(e.target.value))}
+          />
+          <span> {dirLightIntensity}</span>
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={showLightHelper}
+            onChange={(e) => setShowLightHelper(e.target.checked)}
+          />
+          Show light visualisation
+        </label>
+        <label>
+          <Button onClick={prevBackground}>Previous</Button>
+          <Button onClick={nextBackground}>Next</Button>
+          Change background
+        </label>
+      </div>
+
+      <div id="product">
+        <figure id="image-product" className="bg-image">
+          <CarModel
+            modelPath={
+              "https://atomobilegallery.blob.core.windows.net/cars/3dModels/volkswagen_karman.glb"
+            }
+            dirLightColor={dirLightColor}
+            ambientColor={ambientColor}
+            dirPosition={{
+              x: dirPositionX,
+              y: dirPositionY,
+              z: dirPositionZ
+            }}
+            dirLightIntensity={dirLightIntensity}
+            showLightHelper={showLightHelper}
+            hdrBackground={hdrBackgrounds[currentBgIndex]}
+          />
+          <h1 id="caption">Test</h1>
+        </figure>
+      </div>
+    </>
+  );
 }
